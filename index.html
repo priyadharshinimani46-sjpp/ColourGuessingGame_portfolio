@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #222;
+      color: white;
+    }
+    #color-box {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      border: 3px solid #fff;
+    }
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Color Guessing Game</h1>
+  <p>Guess the correct color name for the box below!</p>
+  <div id="color-box"></div>
+  <div class="options" id="options"></div>
+  <p id="result"></p>
+
+  <script>
+    const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink"];
+    const colorBox = document.getElementById("color-box");
+    const optionsDiv = document.getElementById("options");
+    const result = document.getElementById("result");
+
+    let correctColor;
+
+    function newRound() {
+      // Pick a random color
+      correctColor = colors[Math.floor(Math.random() * colors.length)];
+      colorBox.style.background = correctColor;
+
+      // Shuffle options
+      const shuffled = [...colors].sort(() => Math.random() - 0.5);
+      optionsDiv.innerHTML = "";
+
+      shuffled.slice(0, 3).forEach(color => {
+        const btn = document.createElement("button");
+        btn.textContent = color;
+        btn.style.background = color;
+        btn.style.color = "white";
+        btn.addEventListener("click", () => checkAnswer(color));
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(choice) {
+      if (choice === correctColor) {
+        result.textContent = "✅ Correct!";
+      } else {
+        result.textContent = "❌ Wrong! Try again.";
+      }
+      setTimeout(newRound, 1000);
+    }
+
+    // Start the game
+    newRound();
+  </script>
+</body>
+</html>
